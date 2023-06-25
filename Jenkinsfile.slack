@@ -19,6 +19,16 @@ pipeline {
             steps {
                 sh 'npm install'
             }
+            post {
+                success {
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
+                    success: ${env.BUILD_URL}) Installed dependency - npm install."
+                }
+                failure {
+                    slackSend color: "danger", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
+                    success: ${env.BUILD_URL}) Failed install dependency - npm install."
+                }
+            }
         }
         stage('Build') {
             steps {
@@ -27,12 +37,24 @@ pipeline {
             post {
                 success {
                     fingerprint 'dist/keyshell'
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
+                    success: ${env.BUILD_URL}) build succeed."
+                }
+                failure {
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
+                    success: ${env.BUILD_URL}) build failed."
                 }
             }
         }
         stage('Deploy to Apache2') {
             steps {
                 sh 'cp -rv dist/keyshell/* /var/www/html/'
+            }
+            post {
+                failure {
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
+                    success: ${env.BUILD_URL}) deployment failed."
+                }
             }
         }
         stage('Archive Artifacts') {
