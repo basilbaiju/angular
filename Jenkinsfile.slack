@@ -21,12 +21,10 @@ pipeline {
             }
             post {
                 success {
-                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
-                    success: ${env.BUILD_URL}) Installed dependency - npm install."
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER}, URL ${env.BUILD_URL}) Installed dependency - npm install."
                 }
                 failure {
-                    slackSend color: "danger", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
-                    success: ${env.BUILD_URL}) Failed install dependency - npm install."
+                    slackSend color: "danger", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER}, URL ${env.BUILD_URL}) Failed install dependency - npm install."
                 }
             }
         }
@@ -37,12 +35,10 @@ pipeline {
             post {
                 success {
                     fingerprint 'dist/keyshell'
-                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
-                    success: ${env.BUILD_URL}) build succeed."
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER}, URL ${env.BUILD_URL}) build succeed."
                 }
                 failure {
-                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
-                    success: ${env.BUILD_URL}) build failed."
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER}, URL ${env.BUILD_URL}) build failed."
                 }
             }
         }
@@ -52,8 +48,7 @@ pipeline {
             }
             post {
                 failure {
-                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER} is \
-                    success: ${env.BUILD_URL}) deployment failed."
+                    slackSend color: "good", message: "Project; (${JOB_NAME} Build #${env.BUILD_NUMBER}, URL ${env.BUILD_URL}) deployment failed."
                 }
             }
         }
